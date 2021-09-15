@@ -12,13 +12,11 @@ namespace LoggingKata
     {
         readonly ILog logger = new TacoLogger();
 
-        public double ShouldParseLongitude(string line) => throw new System.NotImplementedException();
-
         public ITrackable Parse(string line)
         {
             logger.LogInfo("Begin parsing");
 
-            #region Instructions Part 1           Capture 1                 Capture 2           Capture 3
+            #region Instructions Part 1           Capture 1         Capture 2     Capture 3
             // Take your line and use line.Split(',') to split it up into an array of strings, separated by the char ','
             //var cells = line.Split(',');
 
@@ -31,7 +29,7 @@ namespace LoggingKata
             //}            
             // "34.073638, -84.677017, Taco Bell Acwort..."
             #endregion               
-            var csvData = new Regex(@"(-?[\d]+\.[\d]+?), ?(-?[\d]+\.[\d]+), ?(.+)").Match(line).Groups.Values.Select(x => x.ToString()).ToArray();
+            var csvData = new Regex(@"(-?[\d]+\.[\d]+?), ?(-?[\d]+\.[\d]+), ?(.+)").Match(line).Groups.Values.Skip(1).Select(x => x.ToString()).ToArray();
             #region Instructions Part 2
             // grab the latitude from your array at index 0
 
