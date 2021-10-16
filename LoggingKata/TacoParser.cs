@@ -3,20 +3,25 @@ using System.Linq;
 using System;
 
 namespace LoggingKata
-
 {
-    /// <summary>
-    /// Parses a POI file to locate all the Taco Bells
-    /// </summary>
     public class TacoParser
     {
-        readonly ILog logger = new TacoLogger();
-
+        /// <summary> Parses the provided line to create a TacoBell Location. </summary>
         public ITrackable Parse(string line)
         {
-            logger.LogInfo("Begin parsing");
+            // Parse the data from the CSV line provided using Regex to capture the latitude, longitude, and then location.
+            //                             Capture 1         Capture 2     Capture 3
+            var csvData = new Regex(@"(-?[\d]+\.[\d]+?), ?(-?[\d]+\.[\d]+), ?(.+)").Match(line).Groups.Values
+                                                                            .Skip(1).Select(x => x.ToString()).ToArray();            
+            // return a new TacoBell location utilizing the parsed data.
+            return new TacoBell(Double.Parse(csvData[0]), Double.Parse(csvData[1]), csvData[2]);
+        }
+    }
+}
 
-            #region Instructions Part 1           Capture 1         Capture 2     Capture 3
+
+            #region Instructions Part 1           
+            //logger.LogInfo("Begin parsing");
             // Take your line and use line.Split(',') to split it up into an array of strings, separated by the char ','
             //var cells = line.Split(',');
 
@@ -29,7 +34,6 @@ namespace LoggingKata
             //}            
             // "34.073638, -84.677017, Taco Bell Acwort..."
             #endregion               
-            var csvData = new Regex(@"(-?[\d]+\.[\d]+?), ?(-?[\d]+\.[\d]+), ?(.+)").Match(line).Groups.Values.Skip(1).Select(x => x.ToString()).ToArray();
             #region Instructions Part 2
             // grab the latitude from your array at index 0
 
@@ -49,7 +53,4 @@ namespace LoggingKata
             // Then, return the instance of your TacoBell class
             // Since it conforms to ITrackable
             #endregion
-            return new TacoBell(Double.Parse(csvData[0]), Double.Parse(csvData[1]), csvData[2]);
-        }
-    }
-}
+        //readonly ILog logger = new TacoLogger();
