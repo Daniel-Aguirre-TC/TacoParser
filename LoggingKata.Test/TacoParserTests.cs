@@ -6,8 +6,6 @@ namespace LoggingKata.Test
     public class TacoParserTests
     {
 
-
-
         // This test will ensure that the TacoParser.Parse() method is returning a non-null ITrackable object.
         [Fact]
         public void ShouldReturnNonNull()
